@@ -128,7 +128,17 @@ public class TicketServiceImpl implements TicketService {
         return eventResponse;
     }
 
+    @Override
+    public List<TicketDTO> getBookedTickets(Integer id) {
 
+        return Utils.mapTicketEntityListToTicketDTOList(ticketRepository.findByUserId(Long.valueOf(id)));
+    }
+
+    @Override
+    public Integer getBookedNumber(Long eventId) {
+
+        return ticketRepository.findByEventEventId(eventId).size();
+    }
 
 
     private static Ticket getTicket(TicketDTO ticketDTO, Event event, User user) {

@@ -1,10 +1,7 @@
 package com.anupam.eventManagement.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "events")
+@Data
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +24,7 @@ public class Event {
     private LocalDateTime startTime;
     private  LocalDateTime endTime;
     private Integer capacity;
+    private Boolean status;
 
     @ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "organizer", nullable = false)
@@ -34,5 +33,6 @@ public class Event {
     @OneToOne(targetEntity = TicketPricing.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "pricing")
     private TicketPricing ticketPricing ;
+
 
 }

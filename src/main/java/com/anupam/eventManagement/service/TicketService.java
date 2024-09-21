@@ -1,5 +1,6 @@
 package com.anupam.eventManagement.service;
 
+import com.anupam.eventManagement.model.Ticket;
 import com.anupam.eventManagement.request.AttendeeDTO;
 import com.anupam.eventManagement.request.TicketDTO;
 import com.anupam.eventManagement.request.TicketSalesDTO;
@@ -18,4 +19,7 @@ public interface TicketService {
 
     EventResponse getEventsByUserAsAttendee(Long userId);
 
+    List<TicketDTO> getBookedTickets(Integer id);
+
+    Integer getBookedNumber(Long eventId);
 }

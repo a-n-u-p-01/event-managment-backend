@@ -12,6 +12,7 @@ import com.anupam.eventManagement.request.EventDTO;
 import com.anupam.eventManagement.response.EventResponse;
 import com.anupam.eventManagement.service.EventService;
 import com.anupam.eventManagement.utils.Utils;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,88 +27,89 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private  TicketPricingRepository ticketPricingRepository;
+    private TicketPricingRepository ticketPricingRepository;
 
     @Override
     public EventResponse createEvent(EventDTO event, Long userId) {
         EventResponse response = new EventResponse();
         try {
             Optional<User> organizer = userRepository.findById(userId);
-            if (organizer.isPresent()){
-                Event eventData =Utils.mapEventDTOToEvent(event);
-                System.out.println("Hello "+eventData);
+            if (organizer.isPresent()) {
+                Event eventData = Utils.mapEventDTOToEvent(event);
                 eventData.setOrganizer(organizer.get());
-                 eventData = eventRepository.save(eventData);
+                eventData.setStatus(true);
+                eventData = eventRepository.save(eventData);
                 EventDTO eventDTO = Utils.mapEventEntityToEventDTO(eventData);
                 response.setEvent(eventDTO);
-                response.setMessage("Event created Successfully");
+                response.setMessage("Event created successfully");
                 response.setStatusCode(201);
+            } else {
+                throw new EventException("User not found");
             }
-            else {
-                throw  new EventException("User not found");
-            }
-
-        }
-        catch (EventException e){
+        } catch (EventException e) {
             response.setMessage(e.getMessage());
             response.setStatusCode(400);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("Event Creation failed "+e.getMessage());
+            response.setMessage("Event creation failed: " + e.getMessage());
         }
         return response;
     }
-
 
     @Override
     public EventResponse getAllUserEvents(Long userId) {
         EventResponse response = new EventResponse();
         try {
-            List<Event> events= eventRepository.findByOrganizerId(userId);
-
+            List<Event> events = eventRepository.findByOrganizerId(userId);
             response.setEvents(events);
             response.setStatusCode(200);
-            response.setMessage("User data get Successfully");
-
+            response.setMessage("User data retrieved successfully");
         } catch (UserException e) {
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
-
         } catch (Exception e) {
-
             response.setStatusCode(500);
-            response.setMessage("Error getting  users Details " + e.getMessage());
+            response.setMessage("Error getting user details: " + e.getMessage());
         }
         return response;
     }
+
+    @Override
+    public boolean changeStatus(Long eventId) {
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            event.setStatus(!event.getStatus()); // Toggle the status
+            eventRepository.save(event);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public EventResponse findEventById(Long eventId) {
         EventResponse response = new EventResponse();
         try {
             Optional<Event> eventOptional = eventRepository.findById(eventId);
-            if (eventOptional.isPresent()){
+            if (eventOptional.isPresent()) {
                 Event event = eventOptional.get();
                 EventDTO eventDTO = Utils.mapEventEntityToEventDTO(event);
                 response.setEvent(eventDTO);
-                response.setMessage("Event retrieved Successfully");
+                response.setMessage("Event retrieved successfully");
                 response.setStatusCode(200);
+            } else {
+                throw new EventException("Event not found with ID: " + eventId);
             }
-            else {
-                throw new EventException("Event not found with tis eventId-> "+eventId);
-            }
-
-        }
-        catch (EventException e){
+        } catch (EventException e) {
             response.setMessage(e.getMessage());
             response.setStatusCode(400);
-        }
-        catch (Exception e){
-            response.setMessage("Server error "+e.getMessage());
+        } catch (Exception e) {
+            response.setMessage("Server error: " + e.getMessage());
             response.setStatusCode(500);
         }
-        return  response;
+        return response;
     }
 
     @Override
@@ -124,16 +126,9 @@ public class EventServiceImpl implements EventService {
                 throw new EventException("Event not found with ID: " + eventId);
             }
 
-            Event event = optionalEvent.get();
-
-
-            event.setOrganizer(null);
-
-            eventRepository.deleteById(event.getEventId());
-
+            eventRepository.deleteById(eventId);
             response.setStatusCode(200);
             response.setMessage("Event deleted successfully");
-
         } catch (UserException e) {
             response.setMessage(e.getMessage());
             response.setStatusCode(404);
@@ -163,7 +158,6 @@ public class EventServiceImpl implements EventService {
             }
 
             Event event = eventOptional.get();
-
             event.setTitle(eventDetails.getTitle());
             event.setDescription(eventDetails.getDescription());
             event.setLocation(eventDetails.getLocation());
@@ -177,11 +171,9 @@ public class EventServiceImpl implements EventService {
             }
 
             event = eventRepository.save(event);
-
             response.setEvent(Utils.mapEventEntityToEventDTO(event));
             response.setMessage("Event updated successfully");
             response.setStatusCode(200);
-
         } catch (UserException e) {
             response.setMessage(e.getMessage());
             response.setStatusCode(404);
@@ -200,6 +192,4 @@ public class EventServiceImpl implements EventService {
     public List<Event> findAllEvents() {
         return eventRepository.findAll();
     }
-
-
 }

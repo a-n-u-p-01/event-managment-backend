@@ -1,5 +1,6 @@
 package com.anupam.eventManagement.controller;
 
+import com.anupam.eventManagement.model.Ticket;
 import com.anupam.eventManagement.model.User;
 import com.anupam.eventManagement.request.AttendeeDTO;
 import com.anupam.eventManagement.request.TicketDTO;
@@ -8,6 +9,7 @@ import com.anupam.eventManagement.response.EventResponse;
 import com.anupam.eventManagement.response.TicketResponse;
 import com.anupam.eventManagement.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,5 +57,22 @@ public class TicketController {
         EventResponse eventResponse = ticketService.getEventsByUserAsAttendee(Long.valueOf((currentUser.getId())));
         return ResponseEntity.status(eventResponse.getStatusCode()).body(eventResponse);
     }
+
+
+
+
+    @GetMapping("/get-user-tickets")
+    public ResponseEntity<List<TicketDTO>> getBookedTickets(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        List<TicketDTO> ticketResponses  = ticketService.getBookedTickets(currentUser.getId());
+        return new ResponseEntity<>(ticketResponses, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-no-ticket-booked/{eventId}")
+    public ResponseEntity<Integer> getBookedNumber(@PathVariable("eventId") Long eventId){
+        return new ResponseEntity<>(ticketService.getBookedNumber(eventId),HttpStatus.OK);
+    }
+
 
 }

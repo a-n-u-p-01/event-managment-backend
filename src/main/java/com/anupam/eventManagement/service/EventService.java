@@ -12,6 +12,7 @@ public interface EventService {
 
 //    List<Event> findEventsByOrganizer(Long userId);
 
+
     EventResponse findEventById(Long eventId);
 
     EventResponse deleteEventById(Long userId, Long eventId);
@@ -21,5 +22,7 @@ public interface EventService {
     List<Event> findAllEvents();
 
     EventResponse getAllUserEvents(Long userId);
+
+    boolean changeStatus(Long eventId);
 }
 

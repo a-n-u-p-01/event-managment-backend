@@ -1,7 +1,7 @@
 package com.anupam.eventManagement.service.impl;
 
 
-import com.anupam.eventManagement.model.CommunicationModel;
+import com.anupam.eventManagement.model.Message;
 import com.anupam.eventManagement.model.Event;
 import com.anupam.eventManagement.model.User;
 import com.anupam.eventManagement.repository.CommunicationRepository;
@@ -48,7 +48,7 @@ public class CommunicationServiceImpl implements CommunicationService {
             User recipient = userRepository.findById(recipientId)
                     .orElseThrow(() -> new UserException("Recipient not found"));
 
-            CommunicationModel communication = new CommunicationModel();
+            Message communication = new Message();
             communication.setEvent(event);
             communication.setSender(sender);
             communication.setRecipient(recipient);
@@ -76,7 +76,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     @Override
     public List<CommunicationDTO> getCommunications(Long eventId, Long senderId) {
         try {
-            List<CommunicationModel> communications = communicationRepository.findByEventEventIdAndSenderId(eventId, senderId);
+            List<Message> communications = communicationRepository.findByEventEventIdAndSenderId(eventId, senderId);
 
             return communications.stream()
                     .map(comm -> new CommunicationDTO(comm.getMessage(), comm.getRecipient().getFullName(), comm.getSentAt(), comm.getEvent().getTitle()))
@@ -90,7 +90,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     public List<CommunicationDTO> getCommunicationsByRecipientId(Long recipientId) {
         try {
-            List<CommunicationModel> communications = communicationRepository.findByRecipientId(recipientId);
+            List<Message> communications = communicationRepository.findByRecipientId(recipientId);
 
             return communications.stream()
                     .map(comm -> new CommunicationDTO(

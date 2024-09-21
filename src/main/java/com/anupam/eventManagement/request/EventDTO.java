@@ -19,7 +19,7 @@ public class EventDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer capacity;
-
+    private boolean status;
     private UserDTO organizer;
     private TicketPricingDTO ticketPricing;
 }

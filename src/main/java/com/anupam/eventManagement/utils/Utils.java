@@ -56,6 +56,7 @@ public class Utils {
         eventDTO.setCapacity(event.getCapacity());
         eventDTO.setTicketPricing( mapTicketPricingEntityToTicketPricingDTO(event.getTicketPricing()));
 eventDTO.setOrganizer(userDTO);
+        eventDTO.setStatus(event.getStatus());
         return eventDTO;
     }
     public static Event mapEventDTOToEvent(EventDTO eventDTO){
@@ -103,6 +104,17 @@ eventDTO.setOrganizer(userDTO);
 
         return ticketDTO;
     }
+
+    public static List<TicketDTO> mapTicketEntityListToTicketDTOList(List<Ticket> tickets) {
+        if (tickets == null) {
+            return null;
+        }
+
+        return tickets.stream()
+                .map(Utils::mapTicketEntityToTicketDTO) // Assuming you have a TicketMapper class
+                .collect(Collectors.toList());
+    }
+
 
     public static PaymentDTO paymentEntityToPaymentDTO(Payment payment) {
         if (payment == null) {

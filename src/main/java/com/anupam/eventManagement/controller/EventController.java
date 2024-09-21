@@ -72,4 +72,18 @@ public class EventController {
         return ResponseEntity.status(deleteResponse.getStatusCode()).body(deleteResponse);
     }
 
+
+    @GetMapping("/change-status/{eventId}")
+    public ResponseEntity<String> changeStatus(@PathVariable Long eventId) {
+        try {
+            boolean statusChanged = eventService.changeStatus(eventId);
+            if (statusChanged) {
+                return new ResponseEntity<>("Status changed successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("No Event present", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal Server Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
