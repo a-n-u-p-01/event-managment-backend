@@ -1,6 +1,6 @@
 package com.anupam.eventManagement.repository;
 
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

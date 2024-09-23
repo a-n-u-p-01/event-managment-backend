@@ -1,6 +1,6 @@
 package com.anupam.eventManagement.service.impl;
 
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.repository.UserRepository;
 import com.anupam.eventManagement.response.LoginUserDto;
 import com.anupam.eventManagement.response.RegisterUserDto;

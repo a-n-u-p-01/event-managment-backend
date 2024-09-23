@@ -1,7 +1,6 @@
 package com.anupam.eventManagement.controller;
 
-import com.anupam.eventManagement.model.Ticket;
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.request.AttendeeDTO;
 import com.anupam.eventManagement.request.TicketDTO;
 import com.anupam.eventManagement.request.TicketSalesDTO;
@@ -74,5 +73,9 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.getBookedNumber(eventId),HttpStatus.OK);
     }
 
-
+    @GetMapping("/get-booked-tickets/{eventId}")
+    public ResponseEntity<List<TicketDTO>> getBookedUser(@PathVariable Long eventId){
+        List<TicketDTO> ticketResponses  = ticketService.getBookedTicketsByEventId(eventId);
+        return new ResponseEntity<>(ticketResponses, HttpStatus.OK);
+    }
 }

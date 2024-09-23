@@ -1,7 +1,7 @@
 package com.anupam.eventManagement.controller;
 
-import com.anupam.eventManagement.model.Event;
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.Event;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.request.EventDTO;
 import com.anupam.eventManagement.response.EventResponse;
 import com.anupam.eventManagement.service.EventService;
@@ -25,9 +25,7 @@ public class EventController {
     @PostMapping( "/create-event")
     public ResponseEntity createEvent(@RequestBody EventDTO event) {
 
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         User currentUser = (User) authentication.getPrincipal();
         EventResponse newEvent = eventService.createEvent(event, Long.valueOf(currentUser.getId()));
         return  ResponseEntity.status(newEvent.getStatusCode()).body(newEvent);
@@ -45,7 +43,7 @@ public class EventController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User currentUser = (User) authentication.getPrincipal();
-        EventResponse response = eventService.getAllUserEvents(Long.valueOf(currentUser.getId()));
+        EventResponse response = eventService.getAllUserEvents(currentUser.getId());
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
@@ -64,11 +62,12 @@ public class EventController {
         EventResponse updatedEventResponse = eventService.updateById(Long.valueOf( currentUser.getId()), eventId, eventDetails);
         return ResponseEntity.status(updatedEventResponse.getStatusCode()).body(updatedEventResponse);
     }
+
     @DeleteMapping("/delete/{eventId}")
     public ResponseEntity<EventResponse> DeleteEvent( @PathVariable Long eventId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
-        EventResponse deleteResponse = eventService.deleteEventById(  Long.valueOf(currentUser.getId()),  eventId);
+        EventResponse deleteResponse = eventService.deleteEventById(currentUser.getId(),  eventId);
         return ResponseEntity.status(deleteResponse.getStatusCode()).body(deleteResponse);
     }
 

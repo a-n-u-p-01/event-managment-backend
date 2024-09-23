@@ -1,4 +1,4 @@
-package com.anupam.eventManagement.model;
+package com.anupam.eventManagement.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

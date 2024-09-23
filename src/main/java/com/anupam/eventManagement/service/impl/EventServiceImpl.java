@@ -2,17 +2,20 @@ package com.anupam.eventManagement.service.impl;
 
 import com.anupam.eventManagement.exception.EventException;
 import com.anupam.eventManagement.exception.UserException;
-import com.anupam.eventManagement.model.Event;
-import com.anupam.eventManagement.model.TicketPricing;
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.Event;
+import com.anupam.eventManagement.entity.TicketPricing;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.repository.EventRepository;
 import com.anupam.eventManagement.repository.TicketPricingRepository;
+import com.anupam.eventManagement.repository.TicketRepository;
 import com.anupam.eventManagement.repository.UserRepository;
 import com.anupam.eventManagement.request.EventDTO;
 import com.anupam.eventManagement.response.EventResponse;
 import com.anupam.eventManagement.service.EventService;
+import com.anupam.eventManagement.utils.RandomImageGenerator;
 import com.anupam.eventManagement.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,8 @@ public class EventServiceImpl implements EventService {
     private UserRepository userRepository;
     @Autowired
     private TicketPricingRepository ticketPricingRepository;
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @Override
     public EventResponse createEvent(EventDTO event, Long userId) {
@@ -38,6 +43,7 @@ public class EventServiceImpl implements EventService {
                 Event eventData = Utils.mapEventDTOToEvent(event);
                 eventData.setOrganizer(organizer.get());
                 eventData.setStatus(true);
+                eventData.setImageUrl(RandomImageGenerator.getRandomImageUrl());
                 eventData = eventRepository.save(eventData);
                 EventDTO eventDTO = Utils.mapEventEntityToEventDTO(eventData);
                 response.setEvent(eventDTO);
@@ -60,7 +66,7 @@ public class EventServiceImpl implements EventService {
     public EventResponse getAllUserEvents(Long userId) {
         EventResponse response = new EventResponse();
         try {
-            List<Event> events = eventRepository.findByOrganizerId(userId);
+            List<Event> events = eventRepository.findAllByOrganizerId(userId);
             response.setEvents(events);
             response.setStatusCode(200);
             response.setMessage("User data retrieved successfully");
@@ -113,20 +119,18 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventResponse deleteEventById(Long userId, Long eventId) {
         EventResponse response = new EventResponse();
         try {
+            // Check if user exists
             Optional<User> user = userRepository.findById(userId);
-            if (!user.isPresent()) {
+            if (user.isEmpty()) {
                 throw new UserException("User not found with ID: " + userId);
             }
-
-            Optional<Event> optionalEvent = eventRepository.findById(eventId);
-            if (!optionalEvent.isPresent()) {
-                throw new EventException("Event not found with ID: " + eventId);
-            }
-
-            eventRepository.deleteById(eventId);
+            Event event = eventRepository.findById(eventId)
+                    .orElseThrow(() -> new EntityNotFoundException("Event not found"));
+            eventRepository.delete(event);
             response.setStatusCode(200);
             response.setMessage("Event deleted successfully");
         } catch (UserException e) {

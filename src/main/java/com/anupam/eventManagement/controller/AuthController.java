@@ -1,6 +1,6 @@
 package com.anupam.eventManagement.controller;
 
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.response.LoginResponse;
 import com.anupam.eventManagement.response.LoginUserDto;
 import com.anupam.eventManagement.response.RegisterUserDto;
@@ -27,6 +27,8 @@ public class AuthController {
         User registeredUser = authenticationService.signup(registerUserDto);
         String jwtToken = jwtService.generateToken(registeredUser);
         LoginResponse loginResponse = LoginResponse.builder().token(jwtToken).expiresIn(jwtService.getExpirationTime()).build();
+        loginResponse.setUserName(registeredUser.getFullName());
+        loginResponse.setUserId(registeredUser.getId());
         return ResponseEntity.ok(loginResponse);
     }
 
@@ -35,6 +37,8 @@ public class AuthController {
        User authenticatedUser = authenticationService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUser);
         LoginResponse loginResponse = LoginResponse.builder().token(jwtToken).expiresIn(jwtService.getExpirationTime()).build();
+        loginResponse.setUserName(authenticatedUser.getFullName());
+        loginResponse.setUserId(authenticatedUser.getId());
         return ResponseEntity.ok(loginResponse);
     }
 

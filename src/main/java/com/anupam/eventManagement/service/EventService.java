@@ -1,6 +1,6 @@
 package com.anupam.eventManagement.service;
 
-import com.anupam.eventManagement.model.Event;
+import com.anupam.eventManagement.entity.Event;
 import com.anupam.eventManagement.request.EventDTO;
 import com.anupam.eventManagement.response.EventResponse;
 

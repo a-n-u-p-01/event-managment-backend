@@ -1,6 +1,6 @@
 package com.anupam.eventManagement.service.impl;
 
-import com.anupam.eventManagement.model.Feedback;
+import com.anupam.eventManagement.entity.Feedback;
 import com.anupam.eventManagement.repository.FeedbackRepository;
 import com.anupam.eventManagement.request.FeedbackDTO;
 import com.anupam.eventManagement.request.FeedbackMessageDTO;
@@ -28,6 +28,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             Feedback feedback = new Feedback();
             feedback.setUserId(userId);
             feedback.setEventId(eventId);
+
             feedback.setMessage(feedbackDTO.getMessage());
 
             feedback = feedbackRepository.save(feedback);

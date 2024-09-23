@@ -3,10 +3,10 @@ package com.anupam.eventManagement.service.impl;
 
 import com.anupam.eventManagement.exception.EventException;
 import com.anupam.eventManagement.exception.UserException;
-import com.anupam.eventManagement.model.Event;
-import com.anupam.eventManagement.model.Payment;
-import com.anupam.eventManagement.model.Ticket;
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.Event;
+import com.anupam.eventManagement.entity.Payment;
+import com.anupam.eventManagement.entity.Ticket;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.repository.EventRepository;
 import com.anupam.eventManagement.repository.PaymentRepository;
 import com.anupam.eventManagement.repository.TicketRepository;
@@ -129,7 +129,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<TicketDTO> getBookedTickets(Integer id) {
+    public List<TicketDTO> getBookedTickets(Long id) {
 
         return Utils.mapTicketEntityListToTicketDTOList(ticketRepository.findByUserId(Long.valueOf(id)));
     }
@@ -138,6 +138,11 @@ public class TicketServiceImpl implements TicketService {
     public Integer getBookedNumber(Long eventId) {
 
         return ticketRepository.findByEventEventId(eventId).size();
+    }
+
+    @Override
+    public List<TicketDTO> getBookedTicketsByEventId(Long eventId) {
+        return Utils.mapTicketEntityListToTicketDTOList( ticketRepository.findByEventEventId(eventId));
     }
 
 

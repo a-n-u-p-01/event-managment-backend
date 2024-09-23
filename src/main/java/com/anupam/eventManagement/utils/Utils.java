@@ -1,6 +1,6 @@
 package com.anupam.eventManagement.utils;
 
-import com.anupam.eventManagement.model.*;
+import com.anupam.eventManagement.entity.*;
 import com.anupam.eventManagement.request.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,7 @@ public class Utils {
         userDTO.setCreatedAt(user.getCreatedAt());
         userDTO.setAuthProvider(user.getAuthProvider());
         userDTO.setFullName(user.getFullName());
+        userDTO.setUserId(user.getId());
 
         return  userDTO;
     }
@@ -48,6 +49,7 @@ public class Utils {
     public static EventDTO mapEventEntityToEventDTO(Event event){
         EventDTO eventDTO = new EventDTO();
         UserDTO userDTO =mapUserEntityToUserDTO(event.getOrganizer());
+        eventDTO.setEventId(event.getEventId());
         eventDTO.setTitle(event.getTitle());
         eventDTO.setDescription(event.getDescription());
         eventDTO.setLocation(event.getLocation());
@@ -57,6 +59,7 @@ public class Utils {
         eventDTO.setTicketPricing( mapTicketPricingEntityToTicketPricingDTO(event.getTicketPricing()));
 eventDTO.setOrganizer(userDTO);
         eventDTO.setStatus(event.getStatus());
+        eventDTO.setImageUrl(event.getImageUrl());
         return eventDTO;
     }
     public static Event mapEventDTOToEvent(EventDTO eventDTO){
@@ -128,6 +131,7 @@ eventDTO.setOrganizer(userDTO);
 
         return paymentDTO;
     }
-
-
 }
+
+
+

@@ -1,4 +1,4 @@
-package com.anupam.eventManagement.model;
+package com.anupam.eventManagement.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +25,7 @@ public class Event {
     private  LocalDateTime endTime;
     private Integer capacity;
     private Boolean status;
+    private String imageUrl;
 
     @ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "organizer", nullable = false)

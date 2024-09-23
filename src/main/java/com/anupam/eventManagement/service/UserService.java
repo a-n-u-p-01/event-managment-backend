@@ -1,9 +1,10 @@
 package com.anupam.eventManagement.service;
 
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.request.LoginRequest;
 import com.anupam.eventManagement.request.UserDTO;
 import com.anupam.eventManagement.response.Response;
+import com.anupam.eventManagement.response.UserDataResponse;
 
 import java.util.List;
 
@@ -22,4 +23,7 @@ public interface UserService {
 
 
     User updateUser(Long id, User userDetails);
+
+
+    UserDataResponse getUserData(User currentUser);
 }

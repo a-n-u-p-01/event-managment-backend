@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class EventDTO {
 
+    private Long eventId;
     private String title;
     private String description;
     private String location;
@@ -22,4 +23,5 @@ public class EventDTO {
     private boolean status;
     private UserDTO organizer;
     private TicketPricingDTO ticketPricing;
+    private String imageUrl;
 }

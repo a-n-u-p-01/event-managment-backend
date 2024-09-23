@@ -1,4 +1,4 @@
-package com.anupam.eventManagement.model;
+package com.anupam.eventManagement.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,9 +20,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
-    private Event event;
+//    @ManyToOne
+//    @JoinColumn(name = "event_id", nullable = false)
+//    private Event event;
 
     @ManyToOne
     @JoinColumn(name = "sender_id", nullable = false)
@@ -30,7 +30,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "recipient_id", nullable = false)
-    private User recipient;
+    private User receiver;
 
     private String message;
 

@@ -1,6 +1,6 @@
 package com.anupam.eventManagement.controller;
 
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.request.FeedbackMessageDTO;
 import com.anupam.eventManagement.response.FeedbackResponse;
 import com.anupam.eventManagement.service.FeedbackService;

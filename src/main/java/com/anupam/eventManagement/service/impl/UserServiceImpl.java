@@ -1,12 +1,14 @@
 package com.anupam.eventManagement.service.impl;
 
 import com.anupam.eventManagement.exception.UserException;
-import com.anupam.eventManagement.model.User;
+import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.repository.EventRepository;
+import com.anupam.eventManagement.repository.TicketRepository;
 import com.anupam.eventManagement.repository.UserRepository;
 import com.anupam.eventManagement.request.LoginRequest;
 import com.anupam.eventManagement.request.UserDTO;
 import com.anupam.eventManagement.response.Response;
+import com.anupam.eventManagement.response.UserDataResponse;
 import com.anupam.eventManagement.service.UserService;
 import com.anupam.eventManagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     final private UserRepository userRepository;
+    @Autowired
     final private EventRepository eventRepository;
+    @Autowired
+    final  private TicketRepository ticketRepository;
 
-    public UserServiceImpl(UserRepository userRepository, EventRepository eventRepository){
+    public UserServiceImpl(UserRepository userRepository, EventRepository eventRepository, TicketRepository ticketRepository){
         this.userRepository = userRepository;
         this.eventRepository = eventRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @Override
@@ -180,4 +186,17 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public UserDataResponse getUserData(User currentUser) {
+        UserDataResponse userDataResponse = new UserDataResponse();
+        UserDTO userDTO = Utils.mapUserEntityToUserDTO(userRepository.findByEmail(currentUser.getEmail()).orElseThrow(null));
+        userDataResponse.setUserDTO(userDTO);
+        userDataResponse.setEventBooked((long) ticketRepository.findByUserId(Long.valueOf(currentUser.getId())).size());
+        userDataResponse.setEventHosted((long) eventRepository.findAllByOrganizerId(currentUser.getId()).size());
+
+        return userDataResponse;
+    }
+
+
 }

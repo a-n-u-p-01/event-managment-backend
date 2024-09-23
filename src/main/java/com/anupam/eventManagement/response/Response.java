@@ -1,6 +1,6 @@
 package com.anupam.eventManagement.response;
 
-import com.anupam.eventManagement.model.Event;
+import com.anupam.eventManagement.entity.Event;
 import com.anupam.eventManagement.request.UserDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

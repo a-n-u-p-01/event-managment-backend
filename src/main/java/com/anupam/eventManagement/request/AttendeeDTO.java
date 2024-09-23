@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AttendeeDTO {
-        private  int userId;
+        private  Long userId;
         private String fullName;
         private String email;
         private Integer ticketType;
