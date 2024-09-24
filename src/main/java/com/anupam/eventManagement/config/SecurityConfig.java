@@ -60,7 +60,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:5173","http://localhost:5174","https://event-manager-frontend-kappa.vercel.app"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173","https://event-phi-one.vercel.app","http://localhost:5174","https://event-manager-frontend-kappa.vercel.app"));
         configuration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
