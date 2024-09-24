@@ -45,7 +45,7 @@ public class SecurityConfig {
                         auth -> {
 //                            auth.requestMatchers(HttpMethod.OPTIONS, "*/**").permitAll();
                             auth
-                                    .requestMatchers("/comment/**","/auth/**", "/event/get-all", "/event/get-event/**", "*/login/oauth2/code/**", "/login-success","/feedback/feed/**","/ticket/ticket-sales/**","/ticket/get-no-ticket-booked/{eventId}")
+                                    .requestMatchers("/health-check/**","/comment/**","/auth/**", "/event/get-all", "/event/get-event/**", "*/login/oauth2/code/**", "/login-success","/feedback/feed/**","/ticket/ticket-sales/**","/ticket/get-no-ticket-booked/{eventId}")
                                     .permitAll();
                             auth.anyRequest().authenticated();
                         }
