@@ -1,9 +1,13 @@
 package com.anupam.eventManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 @Entity
@@ -27,7 +31,7 @@ public class Event {
     private Boolean status;
     private String imageUrl;
 
-    @ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = User.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "organizer", nullable = false)
     private User organizer;
 
@@ -35,5 +39,8 @@ public class Event {
     @JoinColumn(name = "pricing")
     private TicketPricing ticketPricing ;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Ticket> tickets = new ArrayList<>();
 
 }

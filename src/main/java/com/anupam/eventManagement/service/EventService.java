@@ -15,7 +15,7 @@ public interface EventService {
 
     EventResponse findEventById(Long eventId);
 
-    EventResponse deleteEventById(Long userId, Long eventId);
+    void deleteByEventId(Long eventId);
 
     EventResponse updateById(Long userId,Long eventId, EventDTO eventDetails);
 

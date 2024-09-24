@@ -14,7 +14,6 @@ import com.anupam.eventManagement.response.EventResponse;
 import com.anupam.eventManagement.service.EventService;
 import com.anupam.eventManagement.utils.RandomImageGenerator;
 import com.anupam.eventManagement.utils.Utils;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,31 +119,16 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public EventResponse deleteEventById(Long userId, Long eventId) {
-        EventResponse response = new EventResponse();
+    public void deleteByEventId(Long eventId) {
         try {
-            // Check if user exists
-            Optional<User> user = userRepository.findById(userId);
-            if (user.isEmpty()) {
-                throw new UserException("User not found with ID: " + userId);
-            }
-            Event event = eventRepository.findById(eventId)
-                    .orElseThrow(() -> new EntityNotFoundException("Event not found"));
-            eventRepository.delete(event);
-            response.setStatusCode(200);
-            response.setMessage("Event deleted successfully");
-        } catch (UserException e) {
-            response.setMessage(e.getMessage());
-            response.setStatusCode(404);
-        } catch (EventException e) {
-            response.setMessage(e.getMessage());
-            response.setStatusCode(400);
+            // Deleting the event; associated tickets will be deleted automatically
+            eventRepository.deleteById(eventId);
         } catch (Exception e) {
-            response.setMessage("Event deletion failed: " + e.getMessage());
-            response.setStatusCode(500);
+            throw new RuntimeException("Error while deleting event: " + e.getMessage());
         }
-        return response;
     }
+
+
 
     @Override
     public EventResponse updateById(Long userId, Long eventId, EventDTO eventDetails) {

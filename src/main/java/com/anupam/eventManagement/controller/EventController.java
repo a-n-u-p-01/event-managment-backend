@@ -64,11 +64,14 @@ public class EventController {
     }
 
     @DeleteMapping("/delete/{eventId}")
-    public ResponseEntity<EventResponse> DeleteEvent( @PathVariable Long eventId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) authentication.getPrincipal();
-        EventResponse deleteResponse = eventService.deleteEventById(currentUser.getId(),  eventId);
-        return ResponseEntity.status(deleteResponse.getStatusCode()).body(deleteResponse);
+    public ResponseEntity DeleteEvent( @PathVariable Long eventId) {
+        try {
+            eventService.deleteByEventId(eventId);
+            return new ResponseEntity<>("deleted" ,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 
@@ -85,4 +88,6 @@ public class EventController {
             return new ResponseEntity<>("Internal Server Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 }
