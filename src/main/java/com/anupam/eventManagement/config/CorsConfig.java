@@ -11,6 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("https://event-manager-frontend-kappa.vercel.app")
                 .allowedOrigins("http://localhost:5173") // Allow requests from this origin
+                .allowedOrigins("http://localhost:5173")
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // Allow these methods
                 .allowedHeaders("*"); // Allow all headers
     }

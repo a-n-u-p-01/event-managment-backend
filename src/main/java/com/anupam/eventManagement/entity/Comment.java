@@ -18,5 +18,5 @@ public class Comment {
     private String comment;
     private String userName;
     private Long eventId;
-    private LocalDateTime createdAt;
+    private String createdAt;
 }
