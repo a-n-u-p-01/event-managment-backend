@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the project using Maven
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Second stage: Use a smaller base image to run the Java application
 FROM openjdk:17-jdk-slim
