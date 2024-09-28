@@ -11,10 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TicketDTO {
 
+    private Long ticketId;
     private Integer ticketType;
     private Double price;
-
     private EventDTO event;
     private UserDTO attendee;
     private PaymentDTO payment;
+    private Boolean cancelStatus;
+
 }

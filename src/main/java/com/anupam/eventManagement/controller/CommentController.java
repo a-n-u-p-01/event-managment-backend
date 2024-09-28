@@ -16,7 +16,6 @@ public class CommentController {
     private CommentRepository commentRepository;
     @PostMapping
     public ResponseEntity addComment(@RequestBody Comment comment){
-
         return new ResponseEntity<>(commentRepository.save(comment),HttpStatus.OK);
     }
 

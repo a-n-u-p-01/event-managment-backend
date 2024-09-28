@@ -5,22 +5,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity
-@Getter
-@Setter
+import java.util.Date;
+import java.util.Set;
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketPricing {
+@Builder
+@Entity
+public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private  Double basicPrice;
-    private Double standardPrice;
-    private Double premiumPrice;
-
+    private Long chatId;
+    private String sender;
+    private String content;
+    private Date timestamp;
+    private MessageType type;
+    protected Set<String> activeUsers;
 }

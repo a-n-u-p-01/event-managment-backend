@@ -23,4 +23,6 @@ public interface TicketService {
     Integer getBookedNumber(Long eventId);
 
     List<TicketDTO> getBookedTicketsByEventId(Long eventId);
+
+    void cancelTicket(Long ticketId);
 }

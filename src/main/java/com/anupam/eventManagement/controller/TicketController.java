@@ -78,4 +78,16 @@ public class TicketController {
         List<TicketDTO> ticketResponses  = ticketService.getBookedTicketsByEventId(eventId);
         return new ResponseEntity<>(ticketResponses, HttpStatus.OK);
     }
+
+    @GetMapping("cancel/{ticketId}")
+    public ResponseEntity cancelTicket(@PathVariable("ticketId") Long ticketId){
+       try {
+           ticketService.cancelTicket(ticketId);
+           return new ResponseEntity("Ticket Canceled",HttpStatus.OK);
+       } catch (Exception e) {
+           return new ResponseEntity(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+       }
+
+    }
+
 }

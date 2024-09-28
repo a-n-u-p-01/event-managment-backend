@@ -100,7 +100,8 @@ eventDTO.setOrganizer(userDTO);
         TicketDTO ticketDTO = new TicketDTO();
         ticketDTO.setTicketType(ticket.getTicketType());
         ticketDTO.setPrice(ticket.getPrice());
-
+        ticketDTO.setCancelStatus(ticket.getCancelStatus());
+        ticketDTO.setTicketId(ticket.getTicketId());
         ticketDTO.setEvent(mapEventEntityToEventDTO(ticket.getEvent()));
         ticketDTO.setAttendee(mapUserEntityToUserDTO(ticket.getUser()));
         ticketDTO.setPayment(paymentEntityToPaymentDTO(ticket.getPayment()));

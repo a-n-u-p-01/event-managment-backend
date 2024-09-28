@@ -52,6 +52,7 @@ public class TicketServiceImpl implements TicketService {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new UserException("User not found"));
             Ticket ticket = getTicket(ticketDTO, event, user);
+            ticket.setCancelStatus(false);
             ticket=ticketRepository.save(ticket);
 
             ticketResponse.setStatusCode(201);
@@ -143,6 +144,16 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<TicketDTO> getBookedTicketsByEventId(Long eventId) {
         return Utils.mapTicketEntityListToTicketDTOList( ticketRepository.findByEventEventId(eventId));
+    }
+
+    @Override
+    public void cancelTicket(Long ticketId) {
+        Ticket ticket = ticketRepository.findById(ticketId).orElse(null);
+        if(ticket == null){
+            throw new RuntimeException("Ticket not found with id :" +ticketId);
+        }
+        ticket.setCancelStatus(true);
+        ticketRepository.save(ticket);
     }
 
 

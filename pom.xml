@@ -27,7 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>22</java.version>
 	</properties>
 
 	<dependencies>
@@ -79,12 +79,16 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.stripe</groupId>
-			<artifactId>stripe-java</artifactId>
-			<version>22.0.0</version> <!-- Check for the latest version -->
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.stripe</groupId>-->
+<!--			<artifactId>stripe-java</artifactId>-->
+<!--			<version>22.0.0</version> &lt;!&ndash; Check for the latest version &ndash;&gt;-->
+<!--		</dependency>-->
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
 
 	</dependencies>
 
@@ -107,8 +111,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.10.1</version> <!-- Ensure this version supports Java 21 -->
 				<configuration>
-					<source>21</source>
-					<target>21</target>
+					<source>22</source>
+					<target>22</target>
 				</configuration>
 			</plugin>
 		</plugins>

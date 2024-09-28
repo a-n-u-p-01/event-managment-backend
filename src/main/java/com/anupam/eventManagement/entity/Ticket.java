@@ -38,5 +38,6 @@ public class Ticket {
 
 
     private List<Integer> userIdsBooked;
+    private Boolean cancelStatus;
 
 }

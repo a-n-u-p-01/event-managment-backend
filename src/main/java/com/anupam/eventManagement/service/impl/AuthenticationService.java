@@ -25,7 +25,6 @@ public class AuthenticationService {
 
     public User signup(RegisterUserDto input) {
         User user = User.builder().fullName(input.getFullName()).email(input.getEmail()).password(passwordEncoder.encode(input.getPassword())).authProvider("LOCAL").build();
-
         return userRepository.save(user);
     }
 
