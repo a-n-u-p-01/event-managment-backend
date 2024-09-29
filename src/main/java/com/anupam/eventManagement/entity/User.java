@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String email;
 
     @Getter
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
     @CreationTimestamp

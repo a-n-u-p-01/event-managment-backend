@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -32,17 +33,20 @@ public class ChatController {
     @Autowired
     private ChatRepository chatRepository;
 
-    @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+
+
+    @MessageMapping("/chat.sendMessage/{eventId}") //receive from
+    @SendTo("/topic/public") // send to
+    public ChatMessage sendMessage(@DestinationVariable Long eventId,@Payload ChatMessage chatMessage) {
         chatMessage.setTimestamp(new Date());
         chatMessage.setType(MessageType.MESSAGE);
+        chatMessage.setEventId(eventId);
         chatRepository.save(chatMessage);
         return chatMessage;
     }
 
-    @MessageMapping("/chat.addUser")
-    @SendTo("/topic/public")
+    @MessageMapping("/chat.addUser")//receive from
+    @SendTo("/topic/public")//send to
     public ChatMessage addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
         String userName = chatMessage.getSender();
         users.add(userName);

@@ -1,5 +1,6 @@
 package com.anupam.eventManagement.service.impl;
 
+import com.anupam.eventManagement.entity.Ticket;
 import com.anupam.eventManagement.exception.UserException;
 import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.repository.EventRepository;
@@ -192,7 +193,7 @@ public class UserServiceImpl implements UserService {
         UserDataResponse userDataResponse = new UserDataResponse();
         UserDTO userDTO = Utils.mapUserEntityToUserDTO(userRepository.findByEmail(currentUser.getEmail()).orElseThrow(null));
         userDataResponse.setUserDTO(userDTO);
-        userDataResponse.setEventBooked((long) ticketRepository.findByUserId(Long.valueOf(currentUser.getId())).size());
+        userDataResponse.setEventBooked(ticketRepository.findByUserId(currentUser.getId()).stream().filter(ticket -> !ticket.getCancelStatus()).count());
         userDataResponse.setEventHosted((long) eventRepository.findAllByOrganizerId(currentUser.getId()).size());
 
         return userDataResponse;

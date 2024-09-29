@@ -1,6 +1,8 @@
 package com.anupam.eventManagement.config;
 
 import com.anupam.eventManagement.repository.UserRepository;
+import com.anupam.eventManagement.service.impl.OauthAuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,16 +26,21 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final OauthAuthenticationService oauthAuthenticationService;
+
+
+
 
     public SecurityConfig(
             JwtAuthenticationFilter jwtAuthenticationFilter,
             AuthenticationProvider authenticationProvider,
-            UserRepository userRepository, PasswordEncoder passwordEncoder
+            UserRepository userRepository, PasswordEncoder passwordEncoder, OauthAuthenticationService oauthAuthenticationService
     ) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.oauthAuthenticationService = oauthAuthenticationService;
     }
 
     @Bean
@@ -50,7 +57,9 @@ public class SecurityConfig {
                             auth.anyRequest().authenticated();
                         }
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2Login(oauth->oauth
+                        .successHandler(oauthAuthenticationService))
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -66,7 +75,6 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
         source.registerCorsConfiguration("/**", configuration);
 
         return source;

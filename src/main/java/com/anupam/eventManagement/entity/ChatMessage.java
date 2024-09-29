@@ -26,4 +26,5 @@ public class ChatMessage {
     private Date timestamp;
     private MessageType type;
     protected Set<String> activeUsers;
+    private Long eventId;
 }

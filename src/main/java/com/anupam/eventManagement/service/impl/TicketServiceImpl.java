@@ -138,7 +138,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Integer getBookedNumber(Long eventId) {
 
-        return ticketRepository.findByEventEventId(eventId).size();
+        return Math.toIntExact(ticketRepository.findByEventEventId(eventId).stream().filter(ticket -> !ticket.getCancelStatus()).count());
     }
 
     @Override
