@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "master_users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -73,7 +74,7 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Column(nullable = false,name = "auth_provider")
-    private String authProvider;
+//    @Column(nullable = false,name = "auth_provider")
+//    private String authProvider;
 
 }

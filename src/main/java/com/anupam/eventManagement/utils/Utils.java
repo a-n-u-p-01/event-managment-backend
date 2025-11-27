@@ -27,7 +27,7 @@ public class Utils {
 
         userDTO.setEmail(user.getEmail());
         userDTO.setCreatedAt(user.getCreatedAt());
-        userDTO.setAuthProvider(user.getAuthProvider());
+//        userDTO.setAuthProvider(user.getAuthProvider());
         userDTO.setFullName(user.getFullName());
         userDTO.setUserId(user.getId());
 
@@ -37,7 +37,7 @@ public class Utils {
     public static User mapUserDTOToUserEntity(UserDTO user) {
         User newUser = new User();
         newUser.setEmail(user.getEmail());
-        newUser.setAuthProvider(user.getAuthProvider());
+//        newUser.setAuthProvider(user.getAuthProvider());
         newUser.setFullName(user.getFullName());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         return  newUser;

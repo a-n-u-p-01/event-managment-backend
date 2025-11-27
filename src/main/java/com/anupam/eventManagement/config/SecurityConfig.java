@@ -1,7 +1,7 @@
 package com.anupam.eventManagement.config;
 
 import com.anupam.eventManagement.repository.UserRepository;
-import com.anupam.eventManagement.service.impl.OauthAuthenticationService;
+//import com.anupam.eventManagement.service.impl.OauthAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final OauthAuthenticationService oauthAuthenticationService;
+//    private final OauthAuthenticationService oauthAuthenticationService;
 
 
 
@@ -34,13 +34,13 @@ public class SecurityConfig {
     public SecurityConfig(
             JwtAuthenticationFilter jwtAuthenticationFilter,
             AuthenticationProvider authenticationProvider,
-            UserRepository userRepository, PasswordEncoder passwordEncoder, OauthAuthenticationService oauthAuthenticationService
+            UserRepository userRepository, PasswordEncoder passwordEncoder/*, OauthAuthenticationService oauthAuthenticationService */
     ) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.oauthAuthenticationService = oauthAuthenticationService;
+//        this.oauthAuthenticationService = oauthAuthenticationService;
     }
 
     @Bean
@@ -57,8 +57,8 @@ public class SecurityConfig {
                             auth.anyRequest().authenticated();
                         }
                 )
-                .oauth2Login(oauth->oauth
-                        .successHandler(oauthAuthenticationService))
+//                .oauth2Login(oauth->oauth
+//                        .successHandler(oauthAuthenticationService))
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
