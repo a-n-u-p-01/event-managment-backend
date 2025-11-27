@@ -1,4 +1,4 @@
-# Use a base image that includes Java and Maven (Java 17 for stability)
+# First stage: use Maven + Java 17 (Temurin)
 FROM maven:3.8.4-eclipse-temurin-17 AS build
 
 # Set the working directory inside the container
@@ -10,8 +10,9 @@ COPY . .
 # Build the project using Maven
 RUN mvn clean package -DskipTests
 
-# Second stage: Use a smaller base image to run the Java application
-FROM openjdk:17-jdk-slim
+
+# Second stage: Use a smaller JRE image to run the application
+FROM eclipse-temurin:17-jre-jammy
 
 # Set the working directory inside the container
 WORKDIR /app
