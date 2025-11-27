@@ -74,7 +74,7 @@ public class User implements UserDetails {
         return true;
     }
 
-//    @Column(nullable = false,name = "auth_provider")
-//    private String authProvider;
+    @Column(nullable = false,name = "auth_provider")
+    private String authProvider;
 
 }
