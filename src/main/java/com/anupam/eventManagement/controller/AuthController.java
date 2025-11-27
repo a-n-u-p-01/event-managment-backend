@@ -1,5 +1,6 @@
 package com.anupam.eventManagement.controller;
 
+import com.anupam.eventManagement.entity.ChatMessage;
 import com.anupam.eventManagement.entity.User;
 import com.anupam.eventManagement.response.LoginResponse;
 import com.anupam.eventManagement.response.LoginUserDto;
@@ -7,8 +8,11 @@ import com.anupam.eventManagement.response.RegisterUserDto;
 import com.anupam.eventManagement.service.impl.AuthenticationService;
 import com.anupam.eventManagement.service.impl.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")

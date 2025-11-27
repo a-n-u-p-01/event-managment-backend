@@ -15,6 +15,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Date;
 import java.util.List;
@@ -78,6 +79,10 @@ public class ChatController {
     @GetMapping("chat/get-messages")
     public ResponseEntity<List<ChatMessage>> getMessages(){
         return new ResponseEntity<>(chatRepository.findAll(),HttpStatus.OK);
+    }
+    @GetMapping("/chat/get-messages/{eventId}")
+    public ResponseEntity<List<ChatMessage>> getMessagesByEventId(@PathVariable("eventId") Long eventId){
+        return new ResponseEntity<>(chatRepository.findAllByEventId(eventId),HttpStatus.OK);
     }
 
 }
